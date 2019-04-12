@@ -34,11 +34,11 @@ class EasySwooleEvent implements Event
     public static function mainServerCreate(EventRegister $register)
     {
         // 热重启
-        $server = ServerManager::getInstance()->getSwooleServer();
-        $server->addProcess((new HotReload('reload', ['disableInotify' => false]))->getProcess());
+//        $server = ServerManager::getInstance()->getSwooleServer();
+//        $server->addProcess((new HotReload('reload', ['disableInotify' => false]))->getProcess());
 
         // 任务
-        $server->addProcess((new Task('text'))->getProcess());
+//        $server->addProcess((new Task('text'))->getProcess());
 
         // rpc
         $rpcConfig = new RpcConfig();
@@ -46,9 +46,9 @@ class EasySwooleEvent implements Event
         $rpcConfig->setServiceName('ser1');
 
         // 设置广播地址，可以多个地址
-        $rpcConfig->getAutoFindConfig()->setAutoFindBroadcastAddress(['0.0.0.0:9600']);
+        $rpcConfig->getAutoFindConfig()->setAutoFindBroadcastAddress(['144.34.134.141:9600']);
         // 设置广播监听地址
-        $rpcConfig->getAutoFindConfig()->setAutoFindListenAddress('0.0.0.0:9600');
+        $rpcConfig->getAutoFindConfig()->setAutoFindListenAddress('144.34.134.141:9600');
 
 //         $rpcConfig->setNodeManager(FileManager::class);
         $rpcConfig->setNodeManager(RedisManager::class);
