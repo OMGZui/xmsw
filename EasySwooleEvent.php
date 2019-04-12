@@ -34,7 +34,7 @@ class EasySwooleEvent implements Event
     public static function mainServerCreate(EventRegister $register)
     {
         // 热重启
-//        $server = ServerManager::getInstance()->getSwooleServer();
+        $server = ServerManager::getInstance()->getSwooleServer();
 //        $server->addProcess((new HotReload('reload', ['disableInotify' => false]))->getProcess());
 
         // 任务
