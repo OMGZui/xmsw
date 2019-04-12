@@ -15,6 +15,7 @@ use EasySwoole\EasySwoole\Swoole\EventRegister;
 use EasySwoole\EasySwoole\AbstractInterface\Event;
 use EasySwoole\Http\Request;
 use EasySwoole\Http\Response;
+use EasySwoole\Rpc\NodeManager\FileManager;
 use EasySwoole\Rpc\NodeManager\RedisManager;
 use EasySwoole\Rpc\Rpc;
 use EasySwoole\Rpc\Config as RpcConfig;
@@ -45,13 +46,13 @@ class EasySwooleEvent implements Event
         $rpcConfig->setServiceName('ser1');
 
         // 设置广播地址，可以多个地址
-        $rpcConfig->getAutoFindConfig()->setAutoFindBroadcastAddress(['127.0.0.1:9600']);
+        $rpcConfig->getAutoFindConfig()->setAutoFindBroadcastAddress(['0.0.0.0:9600']);
         // 设置广播监听地址
-        $rpcConfig->getAutoFindConfig()->setAutoFindListenAddress('127.0.0.1:9600');
+        $rpcConfig->getAutoFindConfig()->setAutoFindListenAddress('0.0.0.0:9600');
 
-        // $rpcConfig->setNodeManager(FileManager::class);
+//         $rpcConfig->setNodeManager(FileManager::class);
         $rpcConfig->setNodeManager(RedisManager::class);
-        $rpcConfig->setExtra(['host' => '127.0.0.1', 'port' => 6379]);
+        $rpcConfig->setExtra(['host' => '0.0.0.0', 'port' => 6379, 'auth' => 'zui']);
 
         $rpc = new Rpc($rpcConfig);
         // 注册响应方法
@@ -73,7 +74,7 @@ class EasySwooleEvent implements Event
         // 增加自定义进程去监听/广播服务
         $server->addProcess($autoFindProcess->getProcess());
         // 起一个子服务去运行rpc
-        ServerManager::getInstance()->addServer('rpc',9527, SWOOLE_TCP, '127.0.0.1');
+        ServerManager::getInstance()->addServer('rpc',9527);
         $rpc->attachToServer(ServerManager::getInstance()->getSwooleServer('rpc'));
 
     }

@@ -9,7 +9,6 @@
 namespace App\Process;
 
 use App\Task\TextCheck;
-use Co\Redis;
 use EasySwoole\Component\Timer;
 use EasySwoole\EasySwoole\Swoole\Task\TaskManager;
 
@@ -27,12 +26,6 @@ class Task extends BaseProcess
             // 投递任务
             $textTask = new TextCheck(1111);
             TaskManager::async($textTask);
-            go(function () {
-                $redis = new Redis();
-                $redis->connect('127.0.0.1', 6379, 0.5);
-                $redis->set('taskNum', 1);
-                $redis->incr('taskNum');
-            });
         });
     }
 
