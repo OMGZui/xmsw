@@ -56,7 +56,7 @@ class EasySwooleEvent implements Event
 
         $rpc = new Rpc($rpcConfig);
         // 注册响应方法
-        $rpc->registerAction('call1', function (RpcRequest $request, RpcResponse$response) {
+        $rpc->registerAction('call1', function (RpcRequest $request, RpcResponse $response) {
             // 获取请求参数
             dump($request->getArg());
             // 设置返回给客户端信息
@@ -74,7 +74,7 @@ class EasySwooleEvent implements Event
         // 增加自定义进程去监听/广播服务
         $server->addProcess($autoFindProcess->getProcess());
         // 起一个子服务去运行rpc
-        ServerManager::getInstance()->addServer('rpc',9527);
+        ServerManager::getInstance()->addServer('rpc', 9527, SWOOLE_TCP, '0.0.0.0', ["open_eof_check" => true]);
         $rpc->attachToServer(ServerManager::getInstance()->getSwooleServer('rpc'));
 
     }
